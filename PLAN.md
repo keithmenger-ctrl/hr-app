@@ -15,7 +15,7 @@ Approved by Keith to proceed with these defaults. Change anything by telling Kei
 
 ## Defaults assumed (easy to change)
 - Zones: Z1 50–60%, Z2 60–70%, Z3 70–80%, Z4 80–90%, Z5 90–100% of max HR.
-- No wearable connection in v1 (manual entry). Possible later: Bluetooth strap/watch.
+- Chest strap: connects over Bluetooth (standard heart rate straps: Polar, Garmin, Wahoo). Live bpm + zone, saves one reading every 30 s. Needs Chrome/Edge (Android or computer) or Bluefy on iPhone, and the site must be on https (or localhost). Plain iPhone Safari does not support it. Manual entry still works.
 
 ## Tech
 - Plain HTML/CSS/JS (ES modules), no build step, no dependencies.

@@ -1,5 +1,6 @@
 import { maxHr, zoneFor, zoneRanges, ZONES } from './src/zones.js';
 import { average, lowest, latest, lastDays, zoneSplit, trend, sortByTime } from './src/stats.js';
+import { bluetoothSupported, connectStrap } from './src/ble.js';
 import { emptyState, addClient, addReading, removeClient, parseImport } from './src/store.js';
 
 const KEY = 'hr-app-v1';
@@ -113,5 +114,46 @@ $('import').onchange = async e => {
   } catch (err) { alert(err.message); }
   e.target.value = '';
 };
+
+// ---- Chest strap ----
+const SAVE_EVERY_MS = 30000; // one saved reading per 30 s while connected
+let strap = null, lastSaved = 0, liveClient = null;
+function setLive(html, connected) {
+  $('liveBody').innerHTML = html;
+  $('connect').hidden = connected;
+  $('disconnect').hidden = !connected;
+}
+function onSample(s) {
+  const c = state.clients.find(x => x.id === liveClient);
+  if (!c || !s.bpm) return;
+  const z = zoneFor(s.bpm, maxHr(c));
+  const warn = s.contact === false ? ' <span class="error">check strap contact</span>' : '';
+  setLive(`<div class="big">${s.bpm} <small class="muted" style="font-size:16px">bpm</small></div><div>${pill(z)}${warn}</div><div class="hint">Connected to ${esc(strap?.name || 'strap')} for ${esc(c.name)} · saving every 30 s</div>`, true);
+  const now = Date.now();
+  if (now - lastSaved >= SAVE_EVERY_MS && s.contact !== false && s.bpm >= 20 && s.bpm <= 250) {
+    lastSaved = now;
+    state = addReading(state, c.id, { bpm: s.bpm, time: new Date(now).toISOString(), note: 'chest strap' });
+    save();
+    renderSaved(); // refresh summary/history without wiping the live card
+  }
+}
+function renderSaved() { const keep = $('liveBody').innerHTML, k = !$('disconnect').hidden; render(); setLive(keep, k); }
+$('connect').onclick = async () => {
+  $('bleHint').textContent = '';
+  liveClient = state.selected;
+  try {
+    lastSaved = 0;
+    strap = await connectStrap(onSample, () => { strap = null; setLive('Strap disconnected.', false); });
+    setLive('Connected. Waiting for first heartbeat…', true);
+  } catch (err) {
+    $('bleHint').textContent = err.name === 'NotFoundError' ? 'No strap chosen.' : err.message;
+  }
+};
+$('disconnect').onclick = () => { strap?.stop(); strap = null; setLive('Disconnected.', false); };
+$('clientSelect').addEventListener('change', () => { if (strap) { strap.stop(); strap = null; setLive('Disconnected (client changed).', false); } });
+if (!bluetoothSupported()) {
+  $('connect').disabled = true;
+  $('bleHint').textContent = 'Chest strap needs Chrome or Edge (Android or computer), or the Bluefy app on iPhone. Plain iPhone Safari does not support it.';
+}
 
 render();
