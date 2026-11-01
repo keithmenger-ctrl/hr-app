@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Heart Rate</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>❤ Heart Rate</h1>
+  <select id="clientSelect" aria-label="Client"></select>
+</header>
+<main>
+  <section id="empty" hidden>
+    <p>Add your first client to get started.</p>
+  </section>
+
+  <details id="addClientBox">
+    <summary>+ Add client</summary>
+    <form id="clientForm">
+      <label>Name <input name="name" required></label>
+      <label>Age <input name="age" type="number" min="5" max="110" inputmode="numeric"></label>
+      <label>Max heart rate (optional) <input name="maxHr" type="number" min="100" max="250" inputmode="numeric"></label>
+      <p class="hint">If max is blank it is worked out as 220 − age.</p>
+      <button>Save client</button>
+    </form>
+  </details>
+
+  <div id="clientView" hidden>
+    <section class="card" id="summary"></section>
+    <section class="card">
+      <h2>Log a reading</h2>
+      <form id="readingForm">
+        <label>Beats per minute <input name="bpm" type="number" required min="20" max="250" inputmode="numeric"></label>
+        <label>When <input name="time" type="datetime-local"></label>
+        <label>Note (optional) <input name="note"></label>
+        <button>Add reading</button>
+      </form>
+      <p id="error" class="error" role="alert"></p>
+    </section>
+    <section class="card"><h2>Trend</h2><div id="chart"></div></section>
+    <section class="card"><h2>Zones</h2><div id="zones"></div></section>
+    <section class="card"><h2>History</h2><ul id="history"></ul></section>
+    <section class="card tools">
+      <button id="export" type="button">Export backup</button>
+      <label class="file">Import backup <input id="import" type="file" accept="application/json"></label>
+      <button id="remove" type="button" class="danger">Delete this client</button>
+    </section>
+  </div>
+</main>
+<script type="module" src="app.js"></script>
+</body>
+</html>
