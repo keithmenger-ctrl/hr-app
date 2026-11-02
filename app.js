@@ -140,6 +140,11 @@ function onSample(s) {
 function renderSaved() { const keep = $('liveBody').innerHTML, k = !$('disconnect').hidden; render(); setLive(keep, k); }
 $('connect').onclick = async () => {
   $('bleHint').textContent = '';
+  if (!bluetoothSupported()) {
+    $('bleWarn').hidden = false;
+    $('bleWarn').textContent = 'This browser cannot connect to a chest strap. On iPhone, open this same web address in the free Bluefy app. On Android or a computer, use Chrome.';
+    return;
+  }
   liveClient = state.selected;
   try {
     lastSaved = 0;
@@ -152,8 +157,10 @@ $('connect').onclick = async () => {
 $('disconnect').onclick = () => { strap?.stop(); strap = null; setLive('Disconnected.', false); };
 $('clientSelect').addEventListener('change', () => { if (strap) { strap.stop(); strap = null; setLive('Disconnected (client changed).', false); } });
 if (!bluetoothSupported()) {
-  $('connect').disabled = true;
-  $('bleHint').textContent = 'Chest strap needs Chrome or Edge (Android or computer), or the Bluefy app on iPhone. Plain iPhone Safari does not support it.';
+  $('bleWarn').hidden = false;
+  $('bleWarn').textContent = 'This browser cannot connect to a chest strap. On iPhone, open this same web address in the free Bluefy app. On Android or a computer, use Chrome.';
 }
 
 render();
+
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
