@@ -24,3 +24,15 @@ Approved by Keith to proceed with these defaults. Change anything by telling Kei
 
 ## Later / needs Keith's decision
 - Publishing online (hosting), accounts/sync across devices, wearable integration.
+
+## v2 – Group workouts (approved by Keith)
+- Client profiles: name, age, max HR (optional), weight (lb) and sex (optional, used only for calorie estimates). Editable.
+- Any standard Bluetooth chest strap works. In a workout, tapping a person's tile pairs the strap you pick to THAT person.
+- Workout screen styled like a MyZone wall: one tile per person with % of max HR, bpm, calories, strap name.
+  Colors by % of max: grey 50–59, blue 60–69, green 70–79, yellow 80–89, red 90+ (dark = below 50 / no signal).
+- Readings during a workout are saved to each profile about every 30 s. Screen stays awake; Full screen button for a TV.
+- Limit to know: one phone/tablet/computer can hold only a limited number of Bluetooth connections at once (often ~7–10 on phones, more on a computer with a good adapter). Test with the real class size.
+
+## Later
+- Link client profiles to Keith's KM Trainer / MPS app.
+- Workout summary after class, points/"effort" score like MyZone, saved workout history, shared accounts/sync.

@@ -16,9 +16,14 @@
 <body>
 <header>
   <h1>❤ Heart Rate</h1>
-  <select id="clientSelect" aria-label="Client"></select>
+  <nav>
+    <button id="navClients" type="button" class="tab on">Clients</button>
+    <button id="navWorkout" type="button" class="tab">Workout</button>
+  </nav>
 </header>
 <main>
+  <div id="clientsPane">
+  <label class="pick">Client <select id="clientSelect" aria-label="Client"></select></label>
   <section id="empty" hidden>
     <p>Add your first client to get started.</p>
   </section>
@@ -29,6 +34,10 @@
       <label>Name <input name="name" required></label>
       <label>Age <input name="age" type="number" min="5" max="110" inputmode="numeric"></label>
       <label>Max heart rate (optional) <input name="maxHr" type="number" min="100" max="250" inputmode="numeric"></label>
+      <label>Weight (lb, optional, for calories) <input name="weightLb" type="number" min="50" max="600" inputmode="numeric"></label>
+      <label>Sex (optional, for calories)
+        <select name="sex"><option value="">–</option><option value="male">Male</option><option value="female">Female</option></select>
+      </label>
       <p class="hint">If max is blank it is worked out as 220 − age.</p>
       <button>Save client</button>
     </form>
@@ -57,13 +66,50 @@
     <section class="card"><h2>Trend</h2><div id="chart"></div></section>
     <section class="card"><h2>Zones</h2><div id="zones"></div></section>
     <section class="card"><h2>History</h2><ul id="history"></ul></section>
+    <details class="card" id="editBox">
+      <summary>Edit profile</summary>
+      <form id="editForm">
+        <label>Name <input name="name" required></label>
+        <label>Age <input name="age" type="number" min="5" max="110" inputmode="numeric"></label>
+        <label>Max heart rate (optional) <input name="maxHr" type="number" min="100" max="250" inputmode="numeric"></label>
+      <label>Weight (lb, optional, for calories) <input name="weightLb" type="number" min="50" max="600" inputmode="numeric"></label>
+      <label>Sex (optional, for calories)
+        <select name="sex"><option value="">–</option><option value="male">Male</option><option value="female">Female</option></select>
+      </label>
+        <button>Save changes</button>
+      </form>
+    </details>
     <section class="card tools">
       <button id="export" type="button">Export backup</button>
       <label class="file">Import backup <input id="import" type="file" accept="application/json"></label>
       <button id="remove" type="button" class="danger">Delete this client</button>
     </section>
   </div>
+  </div>
+
+  <div id="workoutPane" hidden>
+    <section class="card" id="setup">
+      <h2>Start a workout</h2>
+      <p class="hint">Pick who is working out. On the next screen, tap each person's tile to pair their chest strap to them.</p>
+      <div id="pickList"></div>
+      <button id="startWorkout" type="button">Start workout</button>
+      <p id="setupMsg" class="error" role="alert"></p>
+    </section>
+  </div>
 </main>
+
+<div id="wallWrap" hidden>
+  <div id="wallBar">
+    <span id="wallCount"></span>
+    <span id="wallClock"></span>
+    <span class="wallBtns">
+      <button id="wallFull" type="button">Full screen</button>
+      <button id="wallEnd" type="button">End workout</button>
+    </span>
+  </div>
+  <div id="wall"></div>
+  <p id="wallMsg" role="alert"></p>
+</div>
 <script type="module" src="app.js"></script>
 </body>
 </html>

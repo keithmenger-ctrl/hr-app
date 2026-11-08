@@ -2,12 +2,23 @@ import { validReading } from './stats.js';
 
 export function emptyState() { return { clients: [], selected: null }; }
 
-export function addClient(state, { name, age, maxHr }) {
+export function addClient(state, { name, age, maxHr, weightLb, sex }) {
   const clean = String(name || '').trim();
   if (!clean) throw new Error('Name is required');
   const id = 'c' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
-  const client = { id, name: clean, age: age ?? null, maxHr: maxHr ?? null, readings: [] };
+  const client = { id, name: clean, age: age ?? null, maxHr: maxHr ?? null, weightLb: weightLb ?? null, sex: sex || null, readings: [] };
   return { clients: [...state.clients, client], selected: id };
+}
+
+export function updateClient(state, clientId, { name, age, maxHr, weightLb, sex }) {
+  const clean = String(name || '').trim();
+  if (!clean) throw new Error('Name is required');
+  return {
+    ...state,
+    clients: state.clients.map(c => (c.id === clientId
+      ? { ...c, name: clean, age: age ?? null, maxHr: maxHr ?? null, weightLb: weightLb ?? null, sex: sex || null }
+      : c)),
+  };
 }
 
 export function addReading(state, clientId, { bpm, time, note }) {

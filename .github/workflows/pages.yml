@@ -26,7 +26,7 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
-      - run: mkdir site && cp -r index.html app.js style.css sw.js manifest.webmanifest src icons site/
+      - run: mkdir site && cp -r index.html app.js workout-ui.js style.css sw.js manifest.webmanifest src icons site/
       - uses: actions/upload-pages-artifact@v3
         with: { path: site }
       - id: deployment

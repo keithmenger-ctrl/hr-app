@@ -1,7 +1,8 @@
 import { maxHr, zoneFor, zoneRanges, ZONES } from './src/zones.js';
 import { average, lowest, latest, lastDays, zoneSplit, trend, sortByTime } from './src/stats.js';
 import { bluetoothSupported, connectStrap } from './src/ble.js';
-import { emptyState, addClient, addReading, removeClient, parseImport } from './src/store.js';
+import { emptyState, addClient, addReading, removeClient, parseImport, updateClient } from './src/store.js';
+import { initWorkoutUI } from './workout-ui.js';
 
 const KEY = 'hr-app-v1';
 const $ = id => document.getElementById(id);
@@ -16,7 +17,7 @@ function update(next) { state = next; save(); render(); }
 
 const current = () => state.clients.find(c => c.id === state.selected);
 const fmt = t => new Date(t).toLocaleString([], { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
-const pill = z => z ? `<span class="pill" style="background:${z.color}">Zone ${z.id} · ${z.name}</span>` : '<span class="pill" style="background:#888">Below zones</span>';
+const pill = z => z ? `<span class="pill" style="background:${z.color};color:${z.ink}">Zone ${z.id} · ${z.name}</span>` : '<span class="pill" style="background:#888">Below zones</span>';
 
 function render() {
   const sel = $('clientSelect');
@@ -29,6 +30,11 @@ function render() {
   $('clientView').hidden = !c;
   if (!c) return;
 
+  const ef = $('editForm');
+  if (!ef.contains(document.activeElement)) {
+    ef.name.value = c.name; ef.age.value = c.age ?? ''; ef.maxHr.value = c.maxHr ?? '';
+    ef.weightLb.value = c.weightLb ?? ''; ef.sex.value = c.sex ?? '';
+  }
   const max = maxHr(c);
   const rs = c.readings;
   const last = latest(rs);
@@ -84,7 +90,7 @@ $('clientForm').onsubmit = e => {
   e.preventDefault();
   const f = new FormData(e.target);
   try {
-    update(addClient(state, { name: f.get('name'), age: num(f.get('age')), maxHr: num(f.get('maxHr')) }));
+    update(addClient(state, { name: f.get('name'), age: num(f.get('age')), maxHr: num(f.get('maxHr')), weightLb: num(f.get('weightLb')), sex: f.get('sex') }));
     e.target.reset();
   } catch (err) { alert(err.message); }
 };
@@ -97,6 +103,14 @@ $('readingForm').onsubmit = e => {
     update(addReading(state, state.selected, { bpm: f.get('bpm'), time: t ? new Date(t).toISOString() : undefined, note: f.get('note') }));
     e.target.reset();
   } catch (err) { $('error').textContent = err.message; }
+};
+$('editForm').onsubmit = e => {
+  e.preventDefault();
+  const f = new FormData(e.target);
+  try {
+    update(updateClient(state, state.selected, { name: f.get('name'), age: num(f.get('age')), maxHr: num(f.get('maxHr')), weightLb: num(f.get('weightLb')), sex: f.get('sex') }));
+    $('editBox').open = false;
+  } catch (err) { alert(err.message); }
 };
 $('remove').onclick = () => { if (confirm(`Delete ${current().name} and all their readings?`)) update(removeClient(state, state.selected)); };
 $('export').onclick = () => {
@@ -160,6 +174,19 @@ if (!bluetoothSupported()) {
   $('bleWarn').hidden = false;
   $('bleWarn').textContent = 'This browser cannot connect to a chest strap. On iPhone, open this same web address in the free Bluefy app. On Android or a computer, use Chrome.';
 }
+
+const workoutUI = initWorkoutUI({
+  getClients: () => state.clients,
+  saveReading: (id, bpm, iso) => { try { state = addReading(state, id, { bpm, time: iso, note: 'workout' }); save(); } catch { /* ignore bad reading */ } },
+});
+function showTab(name) {
+  const w = name === 'workout';
+  $('clientsPane').hidden = w; $('workoutPane').hidden = !w;
+  $('navClients').classList.toggle('on', !w); $('navWorkout').classList.toggle('on', w);
+  if (w) workoutUI.renderPick(); else render();
+}
+$('navClients').onclick = () => showTab('clients');
+$('navWorkout').onclick = () => showTab('workout');
 
 render();
 

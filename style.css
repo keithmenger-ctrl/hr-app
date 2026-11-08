@@ -29,3 +29,29 @@ ul#history { list-style:none; margin:0; padding:0; }
 #history li { display:flex; justify-content:space-between; gap:8px; padding:8px 0; border-top:1px solid var(--border); font-size:14px; }
 #history small { color:var(--muted); display:block; }
 svg { width:100%; height:auto; display:block; } .muted { color:var(--muted); }
+
+/* nav + pick */
+nav { display:flex; gap:6px; } .tab { margin:0; padding:8px 14px; background:var(--border); color:var(--text); }
+.tab.on { background:var(--accent); color:#fff; }
+.pick { margin:0; } .pick select { margin-top:4px; }
+.check { display:flex; align-items:center; gap:10px; color:var(--text); font-size:16px; } .check input { width:auto; }
+header select { display:none; }
+
+/* live workout wall (MyZone-style) */
+body.wallOpen { overflow:hidden; }
+#wallWrap { position:fixed; inset:0; z-index:50; background:#000; color:#fff; display:flex; flex-direction:column; }
+#wallBar { display:flex; align-items:center; justify-content:space-between; gap:8px; padding:8px 14px; font-size:20px; font-weight:600; }
+.wallBtns button { margin:0 0 0 6px; padding:8px 12px; font-size:14px; background:#222; }
+#wallEnd { background:var(--accent) !important; }
+#wall { flex:1; display:grid; grid-template-columns:repeat(var(--cols,4),minmax(0,1fr)); grid-auto-rows:minmax(0,1fr); gap:8px; padding:8px; min-height:0; overflow:auto; }
+#wallMsg { margin:0; padding:2px 14px 8px; color:#ff8a80; min-height:1em; font-size:14px; }
+.tile { display:flex; flex-direction:column; justify-content:space-between; margin:0; padding:8px 10px; border-radius:12px; border:2px solid rgba(255,255,255,.25); color:#fff; text-align:left; font-family:inherit; min-height:96px; min-width:0; container-type:inline-size; background:linear-gradient(180deg,#1b1b1b 0%,#1b1b1b 45%,var(--zc,#333) 100%); }
+.tname { display:flex; justify-content:space-between; gap:4px; font-size:clamp(13px,10cqw,28px); font-weight:600; white-space:nowrap; overflow:hidden; }
+.kcal { font-size:.7em; opacity:.85; }
+.pct { text-align:center; font-size:clamp(28px,30cqw,96px); font-weight:700; line-height:1; text-shadow:0 2px 6px rgba(0,0,0,.45); }
+.pct.small { font-size:clamp(13px,8cqw,22px); font-weight:500; opacity:.85; padding:8px 0; }
+.tfoot { display:flex; justify-content:space-between; gap:4px; white-space:nowrap; overflow:hidden; font-size:clamp(11px,7cqw,18px); opacity:.9; }
+.zx { --zc:#2a2a2a; border-color:#444; } .z0 { --zc:#3a3a3a; } .z1 { --zc:#9aa0a6; } .z2 { --zc:#2f6fe4; }
+.z3 { --zc:#1fa34a; } .z4 { --zc:#f2d21b; } .z5 { --zc:#e0312d; }
+.z1, .z4 { border-color:rgba(255,255,255,.6); }
+#wallWrap[hidden] { display:none; }
