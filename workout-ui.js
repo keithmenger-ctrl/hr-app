@@ -12,7 +12,7 @@ export function initWorkoutUI({ getClients, saveReading }) {
     const cs = getClients();
     $('pickList').innerHTML = cs.length
       ? cs.map(c => `<label class="check"><input type="checkbox" value="${esc(c.id)}" checked> ${esc(c.name)}</label>`).join('')
-      : '<p class="muted">Add clients first (Clients tab).</p>';
+      : '<p class="muted">Add clients first (Menu → All clients).</p>';
     $('startWorkout').disabled = !cs.length;
   }
 
@@ -59,6 +59,7 @@ export function initWorkoutUI({ getClients, saveReading }) {
     const people = getClients().filter(c => ids.includes(c.id));
     if (!people.length) { $('setupMsg').textContent = 'Pick at least one person.'; return; }
     workout = new Workout(people, { onChange: scheduleRender, onReading: saveReading });
+    $('trainSheet').hidden = true;
     $('wallWrap').hidden = false;
     document.body.classList.add('wallOpen');
     renderWall();

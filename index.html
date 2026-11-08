@@ -2,102 +2,174 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Heart Rate</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MPS Heart Rate</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
-<meta name="theme-color" content="#e5534b">
+<meta name="theme-color" content="#F4EEE5">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Heart Rate">
+<meta name="apple-mobile-web-app-title" content="MPS Heart Rate">
 </head>
 <body>
-<header>
-  <h1>❤ Heart Rate</h1>
-  <nav>
-    <button id="navClients" type="button" class="tab on">Clients</button>
-    <button id="navWorkout" type="button" class="tab">Workout</button>
-  </nav>
-</header>
-<main>
-  <div id="clientsPane">
-  <label class="pick">Client <select id="clientSelect" aria-label="Client"></select></label>
-  <section id="empty" hidden>
-    <p>Add your first client to get started.</p>
-  </section>
+<div id="app">
+  <header id="topbar">
+    <div class="brand"><span class="mark">MPS</span><span class="sub">Heart Rate</span></div>
+    <button id="exportTop" type="button" class="iconbtn" aria-label="Export backup">
+      <svg viewBox="0 0 24 24"><path d="M12 3v12m0 0-4-4m4 4 4-4M5 20h14"/></svg>
+    </button>
+  </header>
 
-  <details id="addClientBox">
-    <summary>+ Add client</summary>
-    <form id="clientForm">
-      <label>Name <input name="name" required></label>
-      <label>Age <input name="age" type="number" min="5" max="110" inputmode="numeric"></label>
-      <label>Max heart rate (optional) <input name="maxHr" type="number" min="100" max="250" inputmode="numeric"></label>
-      <label>Weight (lb, optional, for calories) <input name="weightLb" type="number" min="50" max="600" inputmode="numeric"></label>
-      <label>Sex (optional, for calories)
-        <select name="sex"><option value="">–</option><option value="male">Male</option><option value="female">Female</option></select>
-      </label>
-      <p class="hint">If max is blank it is worked out as 220 − age.</p>
-      <button>Save client</button>
-    </form>
-  </details>
+  <main>
+    <!-- HOME -->
+    <section id="tab-home" class="tab">
+      <div id="homeEmpty" hidden class="empty">
+        <p>Add your first client to get started.</p>
+        <button type="button" class="primary" data-sub="clients">Add a client</button>
+      </div>
+      <div id="homeBody" hidden>
+        <label class="clientpick"><span>Client</span><select id="clientSelect" aria-label="Client"></select></label>
+        <div id="periodTabs" class="seg">
+          <button type="button" data-p="daily">Daily</button>
+          <button type="button" data-p="weekly" class="on">Weekly</button>
+          <button type="button" data-p="monthly">Monthly</button>
+          <button type="button" data-p="yearly">Yearly</button>
+        </div>
+        <div class="range">
+          <button id="prevRange" type="button" class="circle" aria-label="Earlier"><svg viewBox="0 0 24 24"><path d="m15 5-7 7 7 7"/></svg></button>
+          <span id="rangeLabel"></span>
+          <button id="nextRange" type="button" class="circle" aria-label="Later"><svg viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></svg></button>
+        </div>
+        <div class="viewrow"><span>Select your data view</span>
+          <span class="toggle"><button id="unitBpm" type="button" class="on">bpm</button><button id="unitPct" type="button">% max</button></span>
+        </div>
+        <div id="cards"></div>
+        <h2 id="wkTitle">Weekly Workouts</h2>
+        <p class="lede" id="wkLede"></p>
+        <div class="card" id="wkCard"></div>
+        <div class="card" id="chartCard"><div id="chart"></div></div>
+        <button id="fullListBtn" type="button" class="outline">Full Workout List</button>
+        <ul id="fullList" hidden></ul>
+      </div>
+    </section>
 
-  <div id="clientView" hidden>
-    <section class="card" id="summary"></section>
-    <section class="card" id="live">
-      <h2>Chest strap</h2>
-      <div id="liveBody" class="muted"></div>
-      <button id="connect" type="button">Connect chest strap</button>
-      <button id="disconnect" type="button" hidden>Disconnect</button>
-      <p class="hint" id="bleHint"></p>
-      <p id="bleWarn" class="error" role="alert" hidden></p>
+    <!-- CHALLENGES -->
+    <section id="tab-challenges" class="tab" hidden>
+      <h1>Challenges</h1>
+      <div class="seg two"><button type="button" class="on">Current</button><button type="button">Completed</button></div>
+      <div class="empty">
+        <svg class="big" viewBox="0 0 24 24"><path d="M8 4h8v5a4 4 0 0 1-8 0zM8 6H4v1a3 3 0 0 0 3 3M16 6h4v1a3 3 0 0 1-3 3M12 13v4m-3 3h6"/></svg>
+        <p><b>No challenges yet</b></p>
+        <p class="hint">Challenges aren't set up in this app yet.</p>
+      </div>
     </section>
-    <section class="card">
-      <h2>Log a reading</h2>
-      <form id="readingForm">
-        <label>Beats per minute <input name="bpm" type="number" required min="20" max="250" inputmode="numeric"></label>
-        <label>When <input name="time" type="datetime-local"></label>
-        <label>Note (optional) <input name="note"></label>
-        <button>Add reading</button>
-      </form>
-      <p id="error" class="error" role="alert"></p>
+
+    <!-- MENU -->
+    <section id="tab-menu" class="tab" hidden>
+      <div id="menuHead" class="profilehead"></div>
+      <h3 class="group">My client</h3>
+      <div class="list">
+        <button type="button" class="row" data-sub="profile"><span>Profile details</span><i></i></button>
+        <button type="button" class="row" data-sub="zones"><span>Heart rate zones</span><i></i></button>
+        <button type="button" class="row" data-sub="clients"><span>All clients &amp; add new</span><i></i></button>
+      </div>
+      <h3 class="group">Data source</h3>
+      <div class="list">
+        <button type="button" class="row" data-sub="strap"><span>Connect chest strap</span><i></i></button>
+        <button type="button" class="row" data-sub="reading"><span>Log a reading by hand</span><i></i></button>
+      </div>
+      <h3 class="group">Backup</h3>
+      <div class="list">
+        <button type="button" class="row" id="export"><span>Export backup</span><i></i></button>
+        <label class="row"><span>Import backup</span><i></i><input id="import" type="file" accept="application/json" hidden></label>
+      </div>
+      <button id="remove" type="button" class="danger">Delete this client</button>
     </section>
-    <section class="card"><h2>Trend</h2><div id="chart"></div></section>
-    <section class="card"><h2>Zones</h2><div id="zones"></div></section>
-    <section class="card"><h2>History</h2><ul id="history"></ul></section>
-    <details class="card" id="editBox">
-      <summary>Edit profile</summary>
-      <form id="editForm">
+
+    <!-- SUB SCREENS -->
+    <section id="sub-profile" class="sub" hidden>
+      <div class="subbar"><button type="button" class="back" data-back aria-label="Back"><svg viewBox="0 0 24 24"><path d="m15 5-7 7 7 7"/></svg></button><h2>Profile details</h2></div>
+      <form id="editForm" class="card">
         <label>Name <input name="name" required></label>
         <label>Age <input name="age" type="number" min="5" max="110" inputmode="numeric"></label>
         <label>Max heart rate (optional) <input name="maxHr" type="number" min="100" max="250" inputmode="numeric"></label>
-      <label>Weight (lb, optional, for calories) <input name="weightLb" type="number" min="50" max="600" inputmode="numeric"></label>
-      <label>Sex (optional, for calories)
-        <select name="sex"><option value="">–</option><option value="male">Male</option><option value="female">Female</option></select>
-      </label>
-        <button>Save changes</button>
+        <label>Weight (lb, optional, for calories) <input name="weightLb" type="number" min="50" max="600" inputmode="numeric"></label>
+        <label>Sex (optional, for calories)
+          <select name="sex"><option value="">–</option><option value="male">Male</option><option value="female">Female</option></select>
+        </label>
+        <p class="hint">If max is blank it is worked out as 220 − age.</p>
+        <button class="primary">Save changes</button>
       </form>
-    </details>
-    <section class="card tools">
-      <button id="export" type="button">Export backup</button>
-      <label class="file">Import backup <input id="import" type="file" accept="application/json"></label>
-      <button id="remove" type="button" class="danger">Delete this client</button>
     </section>
-  </div>
-  </div>
 
-  <div id="workoutPane" hidden>
-    <section class="card" id="setup">
-      <h2>Start a workout</h2>
-      <p class="hint">Pick who is working out. On the next screen, tap each person's tile to pair their chest strap to them.</p>
-      <div id="pickList"></div>
-      <button id="startWorkout" type="button">Start workout</button>
-      <p id="setupMsg" class="error" role="alert"></p>
+    <section id="sub-zones" class="sub" hidden>
+      <div class="subbar"><button type="button" class="back" data-back aria-label="Back"><svg viewBox="0 0 24 24"><path d="m15 5-7 7 7 7"/></svg></button><h2>Heart rate zones</h2></div>
+      <div id="zonesBody" class="card"></div>
     </section>
-  </div>
-</main>
 
+    <section id="sub-strap" class="sub" hidden>
+      <div class="subbar"><button type="button" class="back" data-back aria-label="Back"><svg viewBox="0 0 24 24"><path d="m15 5-7 7 7 7"/></svg></button><h2>Connect chest strap</h2></div>
+      <div class="card" id="live">
+        <div id="liveBody" class="muted">Pair a strap to the selected client. For a group, use the TRAIN button.</div>
+        <button id="connect" type="button" class="primary">Connect chest strap</button>
+        <button id="disconnect" type="button" class="outline" hidden>Disconnect</button>
+        <p class="hint" id="bleHint"></p>
+        <p id="bleWarn" class="error" role="alert" hidden></p>
+      </div>
+    </section>
+
+    <section id="sub-reading" class="sub" hidden>
+      <div class="subbar"><button type="button" class="back" data-back aria-label="Back"><svg viewBox="0 0 24 24"><path d="m15 5-7 7 7 7"/></svg></button><h2>Log a reading</h2></div>
+      <form id="readingForm" class="card">
+        <label>Beats per minute <input name="bpm" type="number" required min="20" max="250" inputmode="numeric"></label>
+        <label>When <input name="time" type="datetime-local"></label>
+        <label>Note (optional) <input name="note"></label>
+        <button class="primary">Add reading</button>
+        <p id="error" class="error" role="alert"></p>
+      </form>
+    </section>
+
+    <section id="sub-clients" class="sub" hidden>
+      <div class="subbar"><button type="button" class="back" data-back aria-label="Back"><svg viewBox="0 0 24 24"><path d="m15 5-7 7 7 7"/></svg></button><h2>Clients</h2></div>
+      <div id="clientList" class="list"></div>
+      <form id="clientForm" class="card">
+        <h3 class="group nomt">Add a client</h3>
+        <label>Name <input name="name" required></label>
+        <label>Age <input name="age" type="number" min="5" max="110" inputmode="numeric"></label>
+        <label>Max heart rate (optional) <input name="maxHr" type="number" min="100" max="250" inputmode="numeric"></label>
+        <label>Weight (lb, optional, for calories) <input name="weightLb" type="number" min="50" max="600" inputmode="numeric"></label>
+        <label>Sex (optional, for calories)
+          <select name="sex"><option value="">–</option><option value="male">Male</option><option value="female">Female</option></select>
+        </label>
+        <p class="hint">If max is blank it is worked out as 220 − age.</p>
+        <button class="primary">Save client</button>
+      </form>
+    </section>
+  </main>
+
+  <nav id="tabbar">
+    <button type="button" data-tab="home" class="on"><svg viewBox="0 0 24 24"><path d="M4 11 12 4l8 7v9h-5v-6H9v6H4z"/></svg><span>Home</span></button>
+    <button type="button" data-tab="challenges"><svg viewBox="0 0 24 24"><path d="M8 4h8v5a4 4 0 0 1-8 0zM8 6H4v1a3 3 0 0 0 3 3M16 6h4v1a3 3 0 0 1-3 3M12 13v4m-3 3h6"/></svg><span>Challenges</span></button>
+    <button type="button" id="trainBtn" class="train" aria-label="Train"><span class="ring">TRAIN</span></button>
+    <button type="button" data-tab="menu"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg><span>Menu</span></button>
+  </nav>
+</div>
+
+<!-- TRAIN: choose who is working out -->
+<div id="trainSheet" hidden>
+  <div class="subbar"><button type="button" class="back" id="trainBack" aria-label="Back"><svg viewBox="0 0 24 24"><path d="m15 5-7 7 7 7"/></svg></button><h2>Start a workout</h2></div>
+  <p class="lede">Select who is working out. On the next screen, tap each person's tile to pair their chest strap to them.</p>
+  <div id="pickList"></div>
+  <p id="setupMsg" class="error" role="alert"></p>
+  <div class="sheetfoot"><button id="startWorkout" type="button" class="primary wide">Continue</button></div>
+</div>
+
+<!-- LIVE WORKOUT WALL (MyZone-style) -->
 <div id="wallWrap" hidden>
   <div id="wallBar">
     <span id="wallCount"></span>

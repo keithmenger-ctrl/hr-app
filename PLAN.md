@@ -36,3 +36,14 @@ Approved by Keith to proceed with these defaults. Change anything by telling Kei
 ## Later
 - Link client profiles to Keith's KM Trainer / MPS app.
 - Workout summary after class, points/"effort" score like MyZone, saved workout history, shared accounts/sync.
+
+## v3 – Morpheus-style layout + MPS brand (requested by Keith)
+- Layout copied from the Morpheus app (everything except the Learn tab): header, Daily/Weekly/Monthly/Yearly tabs with date arrows,
+  stat cards with change vs the previous period, workouts card (Low/Moderate/High donut + trend chart + full list),
+  bottom bar Home / Challenges / TRAIN (center) / Menu, and a Menu with profile header and grouped rows.
+- Colors and font from the MPS Brand Kit in Notion (Pipeline page): Mineral Blue #356784, Soft Black #12100F,
+  Warm Carbon #1C1815, Sandstone Beige #D6C2AB, Bone White #F4EEE5; font Manrope. Light (Bone White) background, no dark mode.
+- TRAIN = group workout. The live wall keeps the MyZone look (black, zone-colored tiles) because it is meant for a TV/tablet in the gym.
+- Not copied on purpose: Learn tab / Learning center, HRV, Steps and Sleep cards (no data source for them here).
+- Challenges tab is a placeholder until Keith says what a challenge should be.
+- Logo: text wordmark for now; swap in the real MPS logo file when supplied.
