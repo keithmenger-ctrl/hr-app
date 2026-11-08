@@ -1,6 +1,7 @@
+/* MPS palette (from the MPS app's own stylesheet + brand kit): page #EFE7DB, ink #1C1815, accent fill Mineral Blue #356784, accent text #2A5269, Sandstone #D6C2AB. */
 /* MPS brand kit: Mineral Blue #356784, Soft Black #12100F, Warm Carbon #1C1815, Sandstone Beige #D6C2AB, Bone White #F4EEE5. Font: Manrope */
-:root { --blue:#356784; --black:#12100F; --carbon:#1C1815; --sand:#D6C2AB; --bone:#F4EEE5;
-  --card:#FBF8F3; --muted:#6d645b; --line:#E2D6C6; --green:#1a8a3e; --red:#c4271f; --accent:#356784; }
+:root { --blue:#356784; --black:#1C1815; --carbon:#1C1815; --sand:#D6C2AB; --bone:#EFE7DB;
+  --card:#FBF8F3; --muted:#6d645b; --line:rgba(28,24,21,.16); --green:#1a8a3e; --red:#c4271f; --accent:#2A5269; }
 * { box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
 html, body { margin:0; background:var(--bone); color:var(--black); font:15px/1.45 'Manrope',system-ui,sans-serif; }
 #app { max-width:520px; margin:0 auto; min-height:100dvh; padding-bottom:calc(88px + env(safe-area-inset-bottom)); }
@@ -11,8 +12,8 @@ button, select, input { font-family:inherit; }
 button { cursor:pointer; }
 
 #topbar { display:flex; align-items:center; justify-content:space-between; padding:calc(10px + env(safe-area-inset-top)) 16px 8px; position:sticky; top:0; background:var(--bone); z-index:5; }
-.brand { display:flex; align-items:baseline; gap:8px; } .mark { font-weight:800; font-size:22px; letter-spacing:.04em; color:var(--blue); }
-.brand .sub { font-size:12px; letter-spacing:.14em; text-transform:uppercase; font-weight:700; color:var(--black); }
+.brand { display:flex; align-items:center; gap:10px; } .brand .logo { height:32px; width:auto; display:block; }
+.brand .sub { font-size:9px; line-height:1.25; letter-spacing:.16em; text-transform:uppercase; font-weight:700; color:var(--muted); } .brand .sub b { font-size:14px; letter-spacing:.1em; color:var(--black); font-weight:800; }
 .iconbtn, .back, .circle { background:transparent; border:0; color:var(--black); padding:8px; border-radius:50%; display:grid; place-items:center; }
 main { padding:0 16px; }
 .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px; margin:10px 0; }
@@ -81,21 +82,21 @@ input, select { width:100%; margin-top:4px; padding:11px; font-size:16px; font-w
 body.wallOpen { overflow:hidden; }
 [hidden] { display:none !important; }
 
-/* live workout wall (MyZone-style) */
-body.wallOpen { overflow:hidden; }
-#wallWrap { position:fixed; inset:0; z-index:50; background:#000; color:#fff; display:flex; flex-direction:column; }
-#wallBar { display:flex; align-items:center; justify-content:space-between; gap:8px; padding:8px 14px; font-size:20px; font-weight:600; }
-.wallBtns button { margin:0 0 0 6px; padding:8px 12px; font-size:14px; background:#222; }
-#wallEnd { background:var(--accent) !important; }
-#wall { flex:1; display:grid; grid-template-columns:repeat(var(--cols,4),minmax(0,1fr)); grid-auto-rows:minmax(0,1fr); gap:8px; padding:8px; min-height:0; overflow:auto; }
-#wallMsg { margin:0; padding:2px 14px 8px; color:#ff8a80; min-height:1em; font-size:14px; }
-.tile { display:flex; flex-direction:column; justify-content:space-between; margin:0; padding:8px 10px; border-radius:12px; border:2px solid rgba(255,255,255,.25); color:#fff; text-align:left; font-family:inherit; min-height:96px; min-width:0; container-type:inline-size; background:linear-gradient(180deg,#1b1b1b 0%,#1b1b1b 45%,var(--zc,#333) 100%); }
-.tname { display:flex; justify-content:space-between; gap:4px; font-size:clamp(13px,10cqw,28px); font-weight:600; white-space:nowrap; overflow:hidden; }
-.kcal { font-size:.7em; opacity:.85; }
-.pct { text-align:center; font-size:clamp(28px,30cqw,96px); font-weight:700; line-height:1; text-shadow:0 2px 6px rgba(0,0,0,.45); }
-.pct.small { font-size:clamp(13px,8cqw,22px); font-weight:500; opacity:.85; padding:8px 0; }
-.tfoot { display:flex; justify-content:space-between; gap:4px; white-space:nowrap; overflow:hidden; font-size:clamp(11px,7cqw,18px); opacity:.9; }
-.zx { --zc:#2a2a2a; border-color:#444; } .z0 { --zc:#3a3a3a; } .z1 { --zc:#9aa0a6; } .z2 { --zc:#2f6fe4; }
-.z3 { --zc:#1fa34a; } .z4 { --zc:#f2d21b; } .z5 { --zc:#e0312d; }
-.z1, .z4 { border-color:rgba(255,255,255,.6); }
+/* live workout wall – MPS look: Bone page, Soft Black text, zone-colored tiles */
+#wallWrap { position:fixed; inset:0; z-index:50; background:var(--bone); color:var(--black); display:flex; flex-direction:column; }
+#wallBar { display:flex; align-items:center; justify-content:space-between; gap:8px; padding:10px 16px; font-size:20px; font-weight:800; border-bottom:1px solid var(--line); }
+#wallBar img { height:28px; vertical-align:middle; margin-right:8px; }
+.wallBtns button { margin:0 0 0 6px; padding:8px 14px; font-size:14px; font-weight:800; border-radius:8px; border:2px solid var(--blue); background:transparent; color:var(--blue); }
+#wallEnd { background:var(--blue) !important; color:#fff !important; }
+#wall { flex:1; display:grid; grid-template-columns:repeat(var(--cols,4),minmax(0,1fr)); grid-auto-rows:minmax(0,1fr); gap:10px; padding:10px; min-height:0; overflow:auto; }
+#wallMsg { margin:0; padding:2px 16px 8px; color:var(--red); min-height:1em; font-size:14px; font-weight:700; }
+.tile { --zc:var(--card); --zi:var(--black); display:flex; flex-direction:column; justify-content:space-between; margin:0; padding:8px 12px; border-radius:12px; border:2px solid rgba(28,24,21,.18); color:var(--zi); text-align:left; font-family:inherit; min-height:96px; min-width:0; container-type:inline-size; background:linear-gradient(180deg,color-mix(in srgb,var(--zc) 88%,white) 0%,var(--zc) 100%); }
+.tname { display:flex; justify-content:space-between; gap:4px; font-size:clamp(13px,10cqw,28px); font-weight:800; white-space:nowrap; overflow:hidden; }
+.kcal { font-size:.7em; opacity:.9; font-weight:700; }
+.pct { text-align:center; font-size:clamp(28px,30cqw,96px); font-weight:800; line-height:1; }
+.pct.small { font-size:clamp(13px,8cqw,22px); font-weight:700; opacity:.8; padding:8px 0; }
+.tfoot { display:flex; justify-content:space-between; gap:4px; white-space:nowrap; overflow:hidden; font-size:clamp(11px,7cqw,18px); font-weight:700; opacity:.9; }
+.zx { --zc:var(--card); --zi:var(--black); border-style:dashed; border-color:var(--sand); }
+.z0 { --zc:#D6C2AB; --zi:#1C1815; } .z1 { --zc:#9aa0a6; --zi:#1C1815; } .z2 { --zc:#356784; --zi:#fff; }
+.z3 { --zc:#1f8f48; --zi:#fff; } .z4 { --zc:#f2d21b; --zi:#1C1815; } .z5 { --zc:#d63a2f; --zi:#fff; }
 #wallWrap[hidden] { display:none; }

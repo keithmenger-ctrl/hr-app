@@ -11,7 +11,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
-<meta name="theme-color" content="#F4EEE5">
+<meta name="theme-color" content="#EFE7DB">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="MPS Heart Rate">
@@ -19,7 +19,7 @@
 <body>
 <div id="app">
   <header id="topbar">
-    <div class="brand"><span class="mark">MPS</span><span class="sub">Heart Rate</span></div>
+    <div class="brand"><img class="logo" src="icons/mps-logo.png" alt="MPS" width="35" height="32"><span class="sub">Menger Performance Systems<br><b>Heart Rate</b></span></div>
     <button id="exportTop" type="button" class="iconbtn" aria-label="Export backup">
       <svg viewBox="0 0 24 24"><path d="M12 3v12m0 0-4-4m4 4 4-4M5 20h14"/></svg>
     </button>
@@ -55,17 +55,6 @@
         <div class="card" id="chartCard"><div id="chart"></div></div>
         <button id="fullListBtn" type="button" class="outline">Full Workout List</button>
         <ul id="fullList" hidden></ul>
-      </div>
-    </section>
-
-    <!-- CHALLENGES -->
-    <section id="tab-challenges" class="tab" hidden>
-      <h1>Challenges</h1>
-      <div class="seg two"><button type="button" class="on">Current</button><button type="button">Completed</button></div>
-      <div class="empty">
-        <svg class="big" viewBox="0 0 24 24"><path d="M8 4h8v5a4 4 0 0 1-8 0zM8 6H4v1a3 3 0 0 0 3 3M16 6h4v1a3 3 0 0 1-3 3M12 13v4m-3 3h6"/></svg>
-        <p><b>No challenges yet</b></p>
-        <p class="hint">Challenges aren't set up in this app yet.</p>
       </div>
     </section>
 
@@ -154,7 +143,6 @@
 
   <nav id="tabbar">
     <button type="button" data-tab="home" class="on"><svg viewBox="0 0 24 24"><path d="M4 11 12 4l8 7v9h-5v-6H9v6H4z"/></svg><span>Home</span></button>
-    <button type="button" data-tab="challenges"><svg viewBox="0 0 24 24"><path d="M8 4h8v5a4 4 0 0 1-8 0zM8 6H4v1a3 3 0 0 0 3 3M16 6h4v1a3 3 0 0 1-3 3M12 13v4m-3 3h6"/></svg><span>Challenges</span></button>
     <button type="button" id="trainBtn" class="train" aria-label="Train"><span class="ring">TRAIN</span></button>
     <button type="button" data-tab="menu"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg><span>Menu</span></button>
   </nav>
@@ -172,7 +160,7 @@
 <!-- LIVE WORKOUT WALL (MyZone-style) -->
 <div id="wallWrap" hidden>
   <div id="wallBar">
-    <span id="wallCount"></span>
+    <span><img src="icons/mps-logo.png" alt="MPS" height="28"><span id="wallCount"></span></span>
     <span id="wallClock"></span>
     <span class="wallBtns">
       <button id="wallFull" type="button">Full screen</button>

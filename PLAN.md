@@ -43,7 +43,7 @@ Approved by Keith to proceed with these defaults. Change anything by telling Kei
   bottom bar Home / Challenges / TRAIN (center) / Menu, and a Menu with profile header and grouped rows.
 - Colors and font from the MPS Brand Kit in Notion (Pipeline page): Mineral Blue #356784, Soft Black #12100F,
   Warm Carbon #1C1815, Sandstone Beige #D6C2AB, Bone White #F4EEE5; font Manrope. Light (Bone White) background, no dark mode.
-- TRAIN = group workout. The live wall keeps the MyZone look (black, zone-colored tiles) because it is meant for a TV/tablet in the gym.
+- TRAIN = group workout. The live wall now uses the MPS look too (Bone page, Soft Black text, zone-colored tiles, MPS logo); Keith asked for this.
 - Not copied on purpose: Learn tab / Learning center, HRV, Steps and Sleep cards (no data source for them here).
-- Challenges tab is a placeholder until Keith says what a challenge should be.
-- Logo: text wordmark for now; swap in the real MPS logo file when supplied.
+- Challenges tab removed (Keith).
+- Logo and app icon: the MPS KM mark, taken from the MPS app repo (KMTrainer-Web: splash-logo.png, icon-512-v2.png). Page color #EFE7DB, ink #1C1815, accent #356784 / #2A5269 match that app's stylesheet.

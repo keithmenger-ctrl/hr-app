@@ -1,6 +1,6 @@
 export const ZONES = [
   { id: 1, name: 'Very light', min: 0.5, max: 0.6, color: '#9aa0a6', ink: '#111' },
-  { id: 2, name: 'Light', min: 0.6, max: 0.7, color: '#2f6fe4', ink: '#fff' },
+  { id: 2, name: 'Light', min: 0.6, max: 0.7, color: '#356784', ink: '#fff' },
   { id: 3, name: 'Moderate', min: 0.7, max: 0.8, color: '#1fa34a', ink: '#fff' },
   { id: 4, name: 'Hard', min: 0.8, max: 0.9, color: '#f2d21b', ink: '#111' },
   { id: 5, name: 'Maximum', min: 0.9, max: 1.0, color: '#e0312d', ink: '#fff' },

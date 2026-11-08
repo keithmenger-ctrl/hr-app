@@ -18,7 +18,7 @@ const current = () => state.clients.find(c => c.id === state.selected);
 
 // ---------- view state ----------
 let period = 'weekly', offset = 0, unit = 'bpm';
-const TABS = ['home', 'challenges', 'menu'];
+const TABS = ['home', 'menu'];
 const SUBS = ['profile', 'zones', 'strap', 'reading', 'clients'];
 function show(name) {
   for (const t of TABS) $('tab-' + t).hidden = t !== name;
@@ -30,7 +30,7 @@ function show(name) {
 
 const fmtDate = t => new Date(t).toLocaleString([], { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
 const pill = z => z ? `<span class="pill" style="background:${z.color};color:${z.ink}">Zone ${z.id} · ${z.name}</span>` : '<span class="pill" style="background:#cfc6bb;color:#12100F">Below zones</span>';
-const ZTEXT = { 1: '#6b7177', 2: '#2f6fe4', 3: '#1a8a3e', 4: '#a88b00', 5: '#c4271f' };
+const ZTEXT = { 1: '#6b7177', 2: '#356784', 3: '#1a8a3e', 4: '#a88b00', 5: '#c4271f' };
 
 // ---------- render ----------
 function render() {
